@@ -1,3 +1,4 @@
+import { useTitle } from 'ahooks'
 import React, { FC, memo, useState } from 'react'
 import QuestionCard from '../../../components/question-card'
 import styles from './index.module.scss'
@@ -23,6 +24,7 @@ const rawList = [
 
 const List: FC = memo(() => {
   const [questionList, setQuestionList] = useState(rawList)
+  useTitle('问卷 - 我的问卷')
   return (
     <div className={styles.questions}>
       <header className={styles.header}>

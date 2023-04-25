@@ -1,10 +1,11 @@
 import React from 'react'
-import List from './pages/manage/list'
+import { RouterProvider } from 'react-router-dom'
+import router from './router'
 
 function App() {
   return (
     <div className="app">
-      <List />
+      <RouterProvider router={router}></RouterProvider>
     </div>
   )
 }
