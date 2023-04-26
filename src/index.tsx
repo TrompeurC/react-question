@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import './styles/index.scss'
+import 'dayjs/locale/zh-cn'
+import zhCN from 'antd/locale/zh_CN'
+import 'antd/dist/reset.css'
+import { ConfigProvider } from 'antd'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
-    <App />
+    <ConfigProvider locale={zhCN}>
+      <App />
+    </ConfigProvider>
   </React.StrictMode>
 )
 

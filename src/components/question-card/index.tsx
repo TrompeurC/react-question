@@ -1,4 +1,14 @@
 import React, { FC, memo, ReactElement } from 'react'
+import { Button, Divider, Tag, Card, Space, message, Popconfirm, Modal } from 'antd'
+import {
+  EditOutlined,
+  LineChartOutlined,
+  StarOutlined,
+  CopyOutlined,
+  DeleteOutlined,
+  ExclamationCircleOutlined,
+} from '@ant-design/icons'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
 
 type PropsType = {
@@ -12,31 +22,82 @@ type PropsType = {
 }
 
 const QuestionCard: FC<PropsType> = memo(props => {
-  const { title, isStar, isPublished, answerCount, createdAt } = props
-  console.log(isStar, isPublished)
+  const { _id, title, isStar, isPublished, answerCount, createdAt } = props
+  const navigate = useNavigate()
+  const [modal, contextHolder] = Modal.useModal()
+
+  const onRemove = () => {
+    modal.confirm({
+      title: '确定要删除问卷吗？',
+      icon: <ExclamationCircleOutlined />,
+      okText: '确认',
+      cancelText: '取消',
+      onOk() {
+        message.success('删除成功！')
+      },
+    })
+  }
+  const onCopy = () => {
+    message.success('复制成功！')
+  }
   return (
-    <div className={styles['question-item']}>
+    <Card className={styles['question-item']}>
       <div className={styles.first}>
-        <span className={styles.title}>{title}</span>
-        <span className={styles.infos}>
-          <span className="publish">未发布</span>
+        <Link to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}>
+          <Space>
+            {isStar && <StarOutlined />}
+            {title}
+          </Space>
+        </Link>
+        <Space>
+          {isPublished ? <Tag color={'processing'}>已发布</Tag> : <Tag>未发布</Tag>}
+
           <span>答卷:{answerCount}</span>
           <span>{createdAt}</span>
-        </span>
+        </Space>
       </div>
-      <div className={styles.line}></div>
+      <Divider style={{ margin: '12px 0' }} />
       <div className={styles.last}>
-        <span className={styles['last-left']}>
-          <span className="edit">编辑问卷</span>
-          <span className="census">数据统计</span>
+        <span>
+          <Button
+            type="text"
+            onClick={() => navigate(`/question/edit/${_id}`)}
+            size="small"
+            icon={<EditOutlined />}
+            className="edit"
+          >
+            编辑问卷
+          </Button>
+          <Button
+            disabled={!isPublished}
+            onClick={() => navigate(`/question/stat/${_id}`)}
+            type="text"
+            className="census"
+            icon={<LineChartOutlined />}
+          >
+            数据统计
+          </Button>
         </span>
-        <span className={styles['last-right']}>
-          <span>标星</span>
-          <span>复制</span>
-          <span>删除</span>
+        <span>
+          <Button
+            type="text"
+            icon={<StarOutlined style={{ color: isStar ? '#3399CC' : '' }} />}
+            size="small"
+          >
+            标星
+          </Button>
+          <Popconfirm title="确定复制吗？" onConfirm={onCopy}>
+            <Button type="text" icon={<CopyOutlined />} size="small">
+              复制
+            </Button>
+          </Popconfirm>
+          <Button type="text" icon={<DeleteOutlined />} size="small" onClick={onRemove}>
+            删除
+          </Button>
+          {contextHolder}
         </span>
       </div>
-    </div>
+    </Card>
   )
 })
 

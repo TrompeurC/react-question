@@ -1,7 +1,7 @@
 import { useTitle } from 'ahooks'
 import React, { FC, memo, useState } from 'react'
 import QuestionCard from '../../../components/question-card'
-import styles from './index.module.scss'
+import styles from '../common-styles/list-star.module.scss'
 
 const rawList = [
   {
@@ -36,6 +36,7 @@ const List: FC = memo(() => {
           return <QuestionCard key={item._id} {...item}></QuestionCard>
         })}
       </div>
+      <div className="footer">加载更多</div>
     </div>
   )
 })

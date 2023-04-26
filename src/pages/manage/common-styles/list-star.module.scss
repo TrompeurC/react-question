@@ -2,11 +2,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+  padding: 15px;
   // margin-bottom: 10px;
 }
 .questions {
-  background-color: #f1f1f1;
+  // background-color: #f1f1f1;
   padding: 0 20px;
   padding-bottom: 20px;
+  height: calc(100% - 100px);
+}
+.list {
+  height: 100%;
 }

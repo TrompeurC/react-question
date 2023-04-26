@@ -3,7 +3,6 @@
   font-size: 14px;
   background-color: #fff;
   margin-bottom: 20px; 
-
   &:hover {
     box-shadow: 0 4px 10px #e8e8e8;
   }
@@ -19,31 +18,31 @@
   color:#0099CC
 }
 
-.infos {
-  span {
-    margin-left: 12px;
-    font-size: 12px;
-    &:first-of-type {
-      padding: 5px 10px;
-      background-color: #ececec;
-      border-radius: 5px;
-      overflow: hidden;
-    }
-  }
-}
-.line {
-  height: 1px;
-  background-color: #cecece;
-  margin-bottom: 10px;
-}
+// .infos {
+//   span {
+//     // margin-left: 12px;
+//     font-size: 12px;
+//     &:first-of-type {
+//       padding: 5px 10px;
+//       background-color: #ececec;
+//       border-radius: 5px;
+//       overflow: hidden;
+//     }
+//   }
+// }
+// .line {
+//   height: 1px;
+//   background-color: #cecece;
+//   margin-bottom: 10px;
+// }
 
-.last-left,.last-right  {
-  span {
-    margin-left: 10px;
-    cursor: pointer;
-  }
-}
+// .last-left,.last-right  {
+//   span {
+//     // margin-left: 10px;
+//     cursor: pointer;
+//   }
+// }
 
-.last-right {
+// .last-right {
 
-}
+// }
