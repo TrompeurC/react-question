@@ -3,6 +3,7 @@ import React, { FC, memo, useState } from 'react'
 import { Empty, Table, Tag, Button, Space, Modal, message } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import styles from '../common-styles/list-star.module.scss'
+import ListSearch from '../../../components/list-search'
 
 const { confirm } = Modal
 
@@ -65,15 +66,21 @@ const Trash: FC = memo(() => {
         {!questionList.length ? (
           <Empty />
         ) : (
-          <>
-            <Space>
-              <Button type="primary" disabled={!selectKeys.length} onClick={onRestore}>
-                恢复
-              </Button>
-              <Button disabled={!selectKeys.length} danger onClick={onRemove}>
-                删除
-              </Button>
-            </Space>
+          <div>
+            <div className={styles.search}>
+              <Space>
+                <Button type="primary" disabled={!selectKeys.length} onClick={onRestore}>
+                  恢复
+                </Button>
+                <Button disabled={!selectKeys.length} danger onClick={onRemove}>
+                  删除
+                </Button>
+              </Space>
+              <span>
+                <ListSearch />
+              </span>
+            </div>
+
             <Table
               style={{ marginTop: '20px' }}
               dataSource={questionList}
@@ -86,7 +93,7 @@ const Trash: FC = memo(() => {
                 },
               }}
             ></Table>
-          </>
+          </div>
         )}
       </div>
       {/* <div className="footer">加载更多</div> */}

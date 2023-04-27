@@ -1,5 +1,6 @@
 import { useTitle } from 'ahooks'
 import React, { FC, memo, useState } from 'react'
+import ListSearch from '../../../components/list-search'
 import QuestionCard from '../../../components/question-card'
 import styles from '../common-styles/list-star.module.scss'
 
@@ -29,7 +30,9 @@ const List: FC = memo(() => {
     <div className={styles.questions}>
       <header className={styles.header}>
         <h3 className="title">我的问卷</h3>
-        <div className="search">搜索</div>
+        <div className="search">
+          <ListSearch />
+        </div>
       </header>
       <div className={styles.list}>
         {questionList.map(item => {

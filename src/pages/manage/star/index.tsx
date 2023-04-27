@@ -3,6 +3,7 @@ import React, { FC, memo, useState } from 'react'
 import { Empty } from 'antd'
 import QuestionCard from '../../../components/question-card'
 import styles from '../common-styles/list-star.module.scss'
+import ListSearch from '../../../components/list-search'
 
 const rawList = [
   {
@@ -22,7 +23,9 @@ const Star: FC = memo(() => {
     <div className={styles.questions}>
       <header className={styles.header}>
         <h3 className="title">星标问卷</h3>
-        <div className="search">搜索</div>
+        <div className="search">
+          <ListSearch />
+        </div>
       </header>
       <div className={styles.list}>
         {!questionList.length ? (
