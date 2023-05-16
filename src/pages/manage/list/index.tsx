@@ -1,30 +1,20 @@
-import { useTitle } from 'ahooks'
+import { useRequest, useTitle } from 'ahooks'
+import { Spin } from 'antd'
 import React, { FC, memo, useState } from 'react'
 import ListSearch from '../../../components/list-search'
 import QuestionCard from '../../../components/question-card'
+import useQuestionListData from '../../../hooks/useQuestionListData'
 import styles from '../common-styles/list-star.module.scss'
 
-const rawList = [
-  {
-    _id: 'q1',
-    title: '问卷1',
-    isPublished: false,
-    isStar: false,
-    answerCount: 5,
-    createdAt: '3月10日 13:23',
-  },
-  {
-    _id: 'q2',
-    title: '问卷2',
-    isPublished: true,
-    isStar: true,
-    answerCount: 4,
-    createdAt: '3月10日 13:23',
-  },
-]
-
 const List: FC = memo(() => {
-  const [questionList, setQuestionList] = useState(rawList)
+  // const [questionList, setQuestionList] = useState([])
+  // const [total, setTotal] = useState(0)
+
+  const { data, loading } = useQuestionListData()
+  const { list = [], total = 0 } = data
+  // setQuestionList(list)
+  // setTotal(total)
+
   useTitle('问卷 - 我的问卷')
   return (
     <div className={styles.questions}>
@@ -34,11 +24,18 @@ const List: FC = memo(() => {
           <ListSearch />
         </div>
       </header>
-      <div className={styles.list}>
-        {questionList.map(item => {
-          return <QuestionCard key={item._id} {...item}></QuestionCard>
-        })}
-      </div>
+      {loading ? (
+        <div style={{ textAlign: 'center' }}>
+          <Spin />
+        </div>
+      ) : (
+        <div className={styles.list}>
+          {!loading &&
+            list.map((item: any) => {
+              return <QuestionCard key={item._id} {...item}></QuestionCard>
+            })}
+        </div>
+      )}
       <div className="footer">加载更多</div>
     </div>
   )

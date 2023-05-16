@@ -1,7 +1,14 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
+import useLoadingQuestionData from '../../../hooks/useLoadingQuestionData'
 
 const Edit = memo(() => {
-  return <div>Edit</div>
+  const { loading, question } = useLoadingQuestionData()
+  return (
+    <>
+      <div>Edit</div>
+      {loading ? <p>loading</p> : JSON.stringify(question)}
+    </>
+  )
 })
 
 export default Edit

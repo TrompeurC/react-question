@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import styles from './manage.layout.module.scss'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import {
@@ -7,16 +7,35 @@ import {
   StarOutlined,
   DeleteOutlined,
 } from '@ant-design/icons'
-import { Button, Divider, Space } from 'antd'
+import { Button, Divider, message, Space } from 'antd'
+import { createQuestion } from '../services/question'
+import { useRequest } from 'ahooks'
 
 const ManageLayout = memo(() => {
   const location = useLocation()
   const { pathname } = location
   const navigate = useNavigate()
+  // 创建问卷按钮状态
+
+  const { loading, run: handleCreate } = useRequest(createQuestion, {
+    manual: true,
+    onSuccess(res) {
+      navigate(`/question/edit/${res.id}`)
+      message.success('创建成功')
+    },
+  })
+
+  // const handleCreate = async () => {
+  //   setLoading(true)
+  //   const res = await createQuestion()
+  //   navigate(`/question/edit/${res.id}`)
+  //   message.success('创建成功')
+  //   setLoading(false)
+  // }
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        <Button type="primary" icon={<PlusOutlined />}>
+        <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate} disabled={loading}>
           新建问卷
         </Button>
         <Divider />
