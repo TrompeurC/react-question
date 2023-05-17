@@ -2,6 +2,7 @@ import { useRequest, useTitle } from 'ahooks'
 import { Spin } from 'antd'
 import React, { FC, memo, useState } from 'react'
 import ListSearch from '../../../components/list-search'
+import PageList from '../../../components/page-list'
 import QuestionCard from '../../../components/question-card'
 import useQuestionListData from '../../../hooks/useQuestionListData'
 import styles from '../common-styles/list-star.module.scss'
@@ -30,13 +31,15 @@ const List: FC = memo(() => {
         </div>
       ) : (
         <div className={styles.list}>
-          {!loading &&
-            list.map((item: any) => {
-              return <QuestionCard key={item._id} {...item}></QuestionCard>
-            })}
+          <div>
+            {!loading &&
+              list.map((item: any) => {
+                return <QuestionCard key={item._id} {...item}></QuestionCard>
+              })}
+          </div>
         </div>
       )}
-      <div className="footer">加载更多</div>
+      {!loading && <PageList total={total}></PageList>}
     </div>
   )
 })

@@ -1,15 +1,17 @@
-import { useTitle } from 'ahooks'
+import { useRequest, useTitle } from 'ahooks'
 import React, { FC, memo, useState } from 'react'
 import { Empty, Table, Tag, Button, Space, Modal, message, Spin } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import styles from '../common-styles/list-star.module.scss'
 import ListSearch from '../../../components/list-search'
 import useQuestionListData from '../../../hooks/useQuestionListData'
+import PageList from '../../../components/page-list'
+import { deleteQuestions, updateQuestion } from '../../../services/question'
 
 const { confirm } = Modal
 
 const Trash: FC = memo(() => {
-  const { data, loading } = useQuestionListData({ isDelete: true })
+  const { data, loading, refresh } = useQuestionListData({ isDelete: true })
   const { list = [], total } = data
   const [selectKeys, setSelectKeys] = useState<string[]>([])
   useTitle('问卷 - 回收站')
@@ -40,14 +42,41 @@ const Trash: FC = memo(() => {
     confirm({
       title: '确定彻底删除吗？',
       icon: <ExclamationCircleOutlined />,
-      onOk() {
-        message.success('删除成功！')
-      },
+      onOk: handleRemove,
     })
   }
-  const onRestore = () => {
-    message.success('恢复成功！')
-  }
+  // 恢复
+  const { run: onRestore } = useRequest(
+    async () => {
+      for await (const id of selectKeys) {
+        await updateQuestion(id, { isDelete: false })
+      }
+    },
+    {
+      manual: true,
+      debounceWait: 500,
+      onSuccess() {
+        refresh()
+        setSelectKeys([])
+        message.success('恢复成功')
+      },
+    }
+  )
+
+  // const onRestore = () => {
+  //   message.success('恢复成功！')
+  // }
+
+  // 彻底删除问卷
+  const { run: handleRemove } = useRequest(deleteQuestions, {
+    manual: true,
+    debounceWait: 500,
+    onSuccess() {
+      message.success('删除成功！')
+      setSelectKeys([])
+      refresh()
+    },
+  })
   return (
     <div className={styles.questions}>
       <header className={styles.header}>
@@ -94,6 +123,7 @@ const Trash: FC = memo(() => {
           )}
         </div>
       }
+      <PageList total={total} />
       {/* <div className="footer">加载更多</div> */}
     </div>
   )

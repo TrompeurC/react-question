@@ -15,15 +15,18 @@ export default function useQuestionListData(opts: Partial<Params> = {}) {
     loading,
     data = {},
     error,
+    refresh,
   } = useRequest(
     async () => {
       const keyword = searhPamams.get('keyword') || ''
-      const data = await getQuestionList({ keyword, isStar, isDelete })
+      const page = Number(searhPamams.get('page')) || 1
+      const pageSize = Number(searhPamams.get('pageSize')) || 10
+      const data = await getQuestionList({ keyword, isStar, isDelete, pageSize, page })
       return data
     },
     {
       refreshDeps: [searhPamams],
     }
   )
-  return { loading, data, error }
+  return { loading, data, error, refresh }
 }

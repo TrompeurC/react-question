@@ -5,17 +5,7 @@ import QuestionCard from '../../../components/question-card'
 import styles from '../common-styles/list-star.module.scss'
 import ListSearch from '../../../components/list-search'
 import useQuestionListData from '../../../hooks/useQuestionListData'
-
-const rawList = [
-  {
-    _id: 'q2',
-    title: '问卷2',
-    isPublished: true,
-    isStar: true,
-    answerCount: 4,
-    createdAt: '3月10日 13:23',
-  },
-]
+import PageList from '../../../components/page-list'
 
 const Star: FC = memo(() => {
   // const [questionList, setQuestionList] = useState(rawList)
@@ -35,17 +25,21 @@ const Star: FC = memo(() => {
           <Spin />
         </div>
       ) : (
-        <div className={styles.list}>
-          {!list.length ? (
-            <Empty />
-          ) : (
-            list.map((item: any) => {
-              return <QuestionCard key={item._id} {...item}></QuestionCard>
-            })
-          )}
-        </div>
+        <>
+          <div className={styles.list}>
+            {!list.length ? (
+              <Empty />
+            ) : (
+              list.map((item: any) => {
+                return <QuestionCard key={item._id} {...item}></QuestionCard>
+              })
+            )}
+          </div>
+          <PageList total={total} />
+        </>
       )}
-      <div className="footer">加载更多</div>
+
+      {/* <div className="footer">加载更多</div> */}
     </div>
   )
 })
