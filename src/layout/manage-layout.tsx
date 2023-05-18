@@ -15,6 +15,7 @@ const ManageLayout = memo(() => {
   const location = useLocation()
   const { pathname } = location
   const navigate = useNavigate()
+
   // 创建问卷按钮状态
 
   const { loading, run: handleCreate } = useRequest(createQuestion, {
