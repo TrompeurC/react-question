@@ -122,7 +122,7 @@ const QuestionCard: FC<PropsType> = memo(props => {
             onClick={() => handleFav()}
             disabled={favLoading}
           >
-            标星
+            {hasStar ? '取消标星' : '标星'}
           </Button>
           <Popconfirm title="确定复制吗？" onConfirm={onCopy}>
             <Button disabled={copyLoading} type="text" icon={<CopyOutlined />} size="small">

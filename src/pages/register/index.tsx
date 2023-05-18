@@ -1,14 +1,33 @@
 import React, { FC, memo } from 'react'
 import styles from './index.module.scss'
-import { Typography, Button, Space, Form, Input } from 'antd'
-import { Link } from 'react-router-dom'
+import { Typography, Button, Space, Form, Input, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
 import { UserAddOutlined } from '@ant-design/icons'
+import { useRequest } from 'ahooks'
+import { register } from '../../services/users'
 const { Title } = Typography
 
+type Account = { username: string; password: string; nickname: string }
+
 const Register: FC = memo(() => {
-  const onFinish = (value: any) => {
-    console.log(value)
+  const naviagte = useNavigate()
+  const onFinish = (value: Account) => {
+    registerAccount(value)
   }
+
+  const { run: registerAccount } = useRequest(
+    async (value: Account) => {
+      await register(value)
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success('注册成功!')
+        naviagte('/login')
+      },
+    }
+  )
+
   return (
     <div className={styles.container}>
       <div>

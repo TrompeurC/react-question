@@ -1,8 +1,11 @@
 import React, { FC, memo, useEffect } from 'react'
 import styles from './index.module.scss'
-import { Typography, Button, Space, Form, Input, Checkbox } from 'antd'
-import { Link } from 'react-router-dom'
+import { Typography, Button, Space, Form, Input, Checkbox, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
 import { UserAddOutlined } from '@ant-design/icons'
+import { useRequest } from 'ahooks'
+import { login } from '../../services/users'
+import { setToken } from '../../utils/token'
 const { Title } = Typography
 
 type FormFields = {
@@ -32,8 +35,20 @@ function clearUser() {
 
 const Login: FC = memo(() => {
   const [form] = Form.useForm()
+  const navigate = useNavigate()
+
+  const { run: loginAccount } = useRequest(login, {
+    manual: true,
+    onSuccess(res) {
+      message.success('登录成功！')
+      setToken(res.token)
+      navigate('/manage/list')
+    },
+  })
+
   const onFinish = (value: FormFields) => {
     const { username, password, remember } = value
+    loginAccount(username, password)
     if (remember) {
       setUser(username, password)
     } else {
