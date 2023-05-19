@@ -9,7 +9,7 @@ export default function useNavPage(wait: boolean) {
   const navigate = useNavigate()
   useEffect(() => {
     if (wait) return
-    if (username && ['/login', '/register'.includes(pathname)]) {
+    if (username && ['/login', '/register'].includes(pathname)) {
       navigate('/manage/list')
     }
     if (!username && !whiteList.includes(pathname)) {

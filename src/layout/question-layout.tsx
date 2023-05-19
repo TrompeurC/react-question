@@ -6,12 +6,7 @@ import useNavPage from '../hooks/useNavPage'
 const QuestionLayout = memo(() => {
   const wait = useLoadUserInfoData()
   useNavPage(wait)
-  return (
-    <div>
-      QuestionLayout
-      {!wait && <Outlet />}
-    </div>
-  )
+  return <div>{!wait && <Outlet />}</div>
 })
 
 export default QuestionLayout

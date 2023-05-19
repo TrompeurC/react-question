@@ -10,7 +10,7 @@ import Star from '../pages/manage/star'
 import Trash from '../pages/manage/trash'
 import NotFound from '../pages/not-found'
 import ManageLayout from '../layout/manage-layout'
-import Edit from '../pages/question/edit/indx'
+import Edit from '../pages/question/edit'
 import Stat from '../pages/question/stat'
 
 export default createBrowserRouter([

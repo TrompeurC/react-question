@@ -22,7 +22,7 @@ const UserInfo = memo(() => {
     dispatch(logoutAction())
     message.success('退出成功')
     navigate('/login')
-    window.location.reload()
+    // window.location.reload()
   }
   const infoCom = (
     <div>
