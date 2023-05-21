@@ -19,14 +19,18 @@ const PropsComponent = memo(() => {
 
   if (!selectComponent) return NotSelected
 
-  const { type, props } = selectComponent
+  const { type, props, isLock } = selectComponent
   const componentConf = getComponentConfByType(type)!
   const { PropsComponent } = componentConf
   const onChange = (props: ComponentPropsType) => {
     dispatch(changePropsById(props))
   }
 
-  return <div>{selectId ? <PropsComponent onChange={onChange} {...props} /> : NotSelected}</div>
+  return (
+    <div>
+      {selectId ? <PropsComponent onChange={onChange} {...props} isLock={isLock} /> : NotSelected}
+    </div>
+  )
 })
 
 export default PropsComponent

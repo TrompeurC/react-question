@@ -1,10 +1,14 @@
+import { getNextSelectId } from './../utils'
 import { ComponentConfType, ComponentPropsType } from './../../components/question-components/index'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { produce } from 'immer'
 
 export type ComponentInfoType = {
   fe_id: string
   type: string
   title: string
+  isHidden: boolean
+  isLock: boolean
   props: ComponentPropsType
 }
 
@@ -47,10 +51,35 @@ const componentSlice = createSlice({
       const comp = list.find(item => item.fe_id === selectId)
       comp!.props = action.payload
     },
+    deleteComponent(state) {
+      const { list, selectId } = state
+      state.selectId = getNextSelectId(selectId, list)
+      state.list = list.filter(item => item.fe_id !== selectId)
+    },
+    hiddenComponent(state, action: PayloadAction<boolean>) {
+      const { selectId, list } = state
+      const curComponent = list.find(item => item.fe_id === selectId)
+      if (!curComponent) return
+      state.selectId = getNextSelectId(selectId, list)
+      curComponent.isHidden = action.payload
+    },
+    lockComponent(state, action: PayloadAction<boolean>) {
+      const { selectId, list } = state
+      const curComponent = list.find(item => item.fe_id === selectId)
+      if (!curComponent) return
+      curComponent.isLock = action.payload
+    },
   },
 })
 
-export const { resetComponentList, changeSelectId, insertComponent, changePropsById } =
-  componentSlice.actions
+export const {
+  deleteComponent,
+  resetComponentList,
+  changeSelectId,
+  insertComponent,
+  changePropsById,
+  hiddenComponent,
+  lockComponent,
+} = componentSlice.actions
 
 export default componentSlice.reducer

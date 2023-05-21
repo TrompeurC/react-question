@@ -4,7 +4,7 @@ import React, { FC, memo, useEffect } from 'react'
 import { QuestionTitleProps } from './types'
 
 const PropsComponent: FC<QuestionTitleProps> = memo(props => {
-  const { text, level, isCenter, onChange } = props
+  const { text, level, isCenter, onChange, isLock } = props
 
   const [form] = useForm()
   useEffect(() => {
@@ -24,6 +24,7 @@ const PropsComponent: FC<QuestionTitleProps> = memo(props => {
       onValuesChange={onValuesChange}
       initialValues={{ text, level, isCenter }}
       layout="vertical"
+      disabled={isLock}
     >
       <Form.Item label="文本" name={'text'} rules={[{ required: true, message: '该选项为必填项' }]}>
         <Input />

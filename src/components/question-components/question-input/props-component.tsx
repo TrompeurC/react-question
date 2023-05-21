@@ -4,7 +4,7 @@ import React, { FC, memo, useEffect } from 'react'
 import { QuestionInputProps } from './types'
 
 const PropsComponent: FC<QuestionInputProps> = memo(props => {
-  const { placeholder, title, onChange } = props
+  const { placeholder, title, onChange, isLock } = props
   const [form] = useForm()
 
   useEffect(() => {
@@ -20,6 +20,7 @@ const PropsComponent: FC<QuestionInputProps> = memo(props => {
       onValuesChange={onValueChange}
       initialValues={{ placeholder, title }}
       layout="vertical"
+      disabled={isLock}
     >
       <Form.Item
         label="标题"

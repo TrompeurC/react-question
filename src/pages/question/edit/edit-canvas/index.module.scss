@@ -22,3 +22,8 @@
 .component {
   pointer-events: none;
 }
+
+.lock {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

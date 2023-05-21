@@ -23,24 +23,27 @@ const EditCanvas = memo(() => {
   }
   return (
     <div className={styles['edit-canvas']}>
-      {list.map(component => {
-        const { fe_id, props, type } = component
-        const Component = getComponent(type)
-        return (
-          <div
-            key={fe_id}
-            className={classnames(
-              styles['component-wrapper'],
-              selectId === fe_id ? styles.selected : ''
-            )}
-            onClick={e => onClick(e, fe_id)}
-          >
-            <div className={styles.component}>
-              <Component {...props} />
+      {list
+        .filter(item => !item.isHidden)
+        .map(component => {
+          const { fe_id, props, type, isLock } = component
+          const Component = getComponent(type)
+          return (
+            <div
+              key={fe_id}
+              className={classnames(
+                styles['component-wrapper'],
+                selectId === fe_id ? styles.selected : '',
+                isLock ? styles.lock : ''
+              )}
+              onClick={e => onClick(e, fe_id)}
+            >
+              <div className={styles.component}>
+                <Component {...props} />
+              </div>
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
     </div>
   )
 })

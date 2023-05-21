@@ -15,8 +15,10 @@ const ComponentLib = memo(() => {
       insertComponent({
         fe_id: nanoid(),
         title,
+        isHidden: false,
         props: defaultProps,
         type,
+        isLock: false,
       })
     )
   }

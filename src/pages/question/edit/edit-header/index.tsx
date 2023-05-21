@@ -2,6 +2,7 @@ import { CheckOutlined, LeftOutlined } from '@ant-design/icons'
 import { Button, Space } from 'antd'
 import React, { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import EditTool from '../edit-tool'
 import styles from './index.module.scss'
 
 const EditHeader = memo(() => {
@@ -16,7 +17,9 @@ const EditHeader = memo(() => {
           <h5>问题答卷</h5>
         </Space>
       </div>
-      <div className={styles.main}>main</div>
+      <div className={styles.main}>
+        <EditTool />
+      </div>
       <div className={styles.right}>
         <Space>
           <Button size="small" icon={<CheckOutlined />}>

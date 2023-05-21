@@ -7,5 +7,7 @@ export const questionInputProps = {
 export type QuestionInputProps = {
   title?: string
   placeholder?: string
+
   onChange?: (props: ComponentPropsType) => void
+  isLock?: boolean
 }
