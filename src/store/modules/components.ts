@@ -2,6 +2,8 @@ import { getNextSelectId } from './../utils'
 import { ComponentConfType, ComponentPropsType } from './../../components/question-components/index'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { produce } from 'immer'
+import { cloneDeep } from 'lodash'
+import { nanoid } from 'nanoid'
 
 export type ComponentInfoType = {
   fe_id: string
@@ -15,11 +17,13 @@ export type ComponentInfoType = {
 type ComponentState = {
   list: Array<ComponentInfoType>
   selectId: string
+  copyComponent: ComponentInfoType | null
 }
 
 const initialState: ComponentState = {
   list: [],
   selectId: '',
+  copyComponent: null,
 }
 
 const componentSlice = createSlice({
@@ -69,6 +73,41 @@ const componentSlice = createSlice({
       if (!curComponent) return
       curComponent.isLock = action.payload
     },
+    copyComponent(state) {
+      const { list, selectId } = state
+      const comp = list.find(item => item.fe_id === selectId)
+      if (!comp) return
+      state.copyComponent = cloneDeep({ ...comp })
+    },
+    pasteComponent(state) {
+      const { list, selectId, copyComponent } = state
+      if (!copyComponent) return
+      copyComponent.fe_id = nanoid()
+      if (selectId) {
+        const index = list.findIndex(item => item.fe_id === selectId)
+        if (index >= 0) {
+          list.splice(index + 1, 0, copyComponent)
+        }
+      } else {
+        list.push(copyComponent)
+      }
+
+      state.selectId = copyComponent.fe_id
+      state.list = [...list]
+    },
+    moveComponent(state, action: PayloadAction<number>) {
+      const { list, selectId } = state
+      const index = list.findIndex(item => item.fe_id === selectId)
+      if (list.length === 1) return
+      const next = index + action.payload
+      let nextSelectId = ''
+
+      if (next === -1) nextSelectId = list.at(-1)!.fe_id
+      else if (next === list.length) nextSelectId = list[0].fe_id
+      else nextSelectId = list[next].fe_id
+
+      state.selectId = nextSelectId
+    },
   },
 })
 
@@ -80,6 +119,9 @@ export const {
   changePropsById,
   hiddenComponent,
   lockComponent,
+  copyComponent,
+  pasteComponent,
+  moveComponent,
 } = componentSlice.actions
 
 export default componentSlice.reducer

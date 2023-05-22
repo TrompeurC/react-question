@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store'
 import { changeSelectId } from '../../../../store/modules/components'
 import classnames from 'classnames'
 import styles from './index.module.scss'
+import useBindCanvasKeyPress from '../../../../hooks/useBindCanvasKeyPress'
 
 const getComponent = (type: string) => {
   const component = getComponentConfByType(type)!
@@ -16,7 +17,7 @@ const EditCanvas = memo(() => {
   const { list } = useGetComponentList()
   const dispatch = useAppDispatch()
   const selectId = useAppSelector(state => state.componentList.selectId)
-
+  useBindCanvasKeyPress()
   const onClick = (e: MouseEvent, id: string) => {
     e.stopPropagation()
     dispatch(changeSelectId(id))
