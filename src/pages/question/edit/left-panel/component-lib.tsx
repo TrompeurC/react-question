@@ -23,7 +23,7 @@ const ComponentLib = memo(() => {
     )
   }
   return (
-    <div>
+    <div style={{ overflow: 'scroll', height: '600px' }}>
       {groupComponent.map(group => {
         const { groupName, components } = group
 
