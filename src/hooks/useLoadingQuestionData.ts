@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getQuestionById } from '../services/question'
 import { useAppDispatch } from '../store'
 import { changeSelectId, resetComponentList } from '../store/modules/components'
+import { resetPageInfo } from '../store/modules/pageinfo'
 
 // export default function useLoadingQuestionData() {
 //   const { id = '' } = useParams()
@@ -22,11 +23,12 @@ export default function useLoadingQuestionData() {
   const { run, loading } = useRequest(getQuestionById, {
     manual: true,
     onSuccess(res) {
-      const { title, componentList } = res
+      const { title, componentList, css, js, desc } = res
       dispatch(resetComponentList(componentList))
       if (componentList.length > 0) {
         dispatch(changeSelectId(componentList[0].fe_id))
       }
+      dispatch(resetPageInfo({ title, css, js, desc }))
     },
   })
 

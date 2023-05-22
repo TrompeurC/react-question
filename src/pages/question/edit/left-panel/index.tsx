@@ -3,6 +3,7 @@ import { AppstoreAddOutlined, BarsOutlined } from '@ant-design/icons'
 import { Tabs } from 'antd'
 import styles from './index.module.scss'
 import ComponentLib from './component-lib'
+import Layer from './layer'
 
 const ComponentTabs = [
   {
@@ -23,7 +24,7 @@ const ComponentTabs = [
       </span>
     ),
     key: '1',
-    children: '组件库',
+    children: <Layer />,
   },
 ]
 

@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './modules/user'
 import componentListReducer from './modules/components'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import pageinfoReducer from './modules/pageinfo'
 
 const store = configureStore({
   reducer: {
     user: userReducer,
     componentList: componentListReducer,
+    pageInfo: pageinfoReducer,
   },
 })
 

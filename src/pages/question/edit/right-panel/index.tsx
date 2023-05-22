@@ -4,6 +4,7 @@ import React, { FC, memo, useEffect, useState } from 'react'
 import useGetComponentList from '../../../../hooks/useGetComponentList'
 
 import styles from './index.module.scss'
+import PageSetting from './page-setting'
 import PropsComponent from './props-component'
 
 const RightPanel = memo(() => {
@@ -28,7 +29,7 @@ const RightPanel = memo(() => {
         </span>
       ),
       key: '1',
-      children: '页面设置',
+      children: <PageSetting />,
     },
   ]
 

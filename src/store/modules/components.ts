@@ -1,6 +1,6 @@
 import { getNextSelectId } from './../utils'
 import { ComponentConfType, ComponentPropsType } from './../../components/question-components/index'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { cloneDeep } from 'lodash'
 import { nanoid } from 'nanoid'
@@ -35,6 +35,7 @@ const componentSlice = createSlice({
     },
     changeSelectId(state, action: PayloadAction<string>) {
       state.selectId = action.payload
+      // const component = state.list.find(item => item.fe_id === state.selectId);
     },
     insertComponent(state, action: PayloadAction<ComponentInfoType>) {
       const { selectId, list } = state
@@ -108,6 +109,21 @@ const componentSlice = createSlice({
 
       state.selectId = nextSelectId
     },
+    changeComponentTitle(state, action: PayloadAction<string>) {
+      const { selectId, list } = state
+      const curCom = list.find(item => item.fe_id === selectId)
+      if (!curCom) return
+      curCom.title = action.payload
+      state.list = [...list]
+    },
+    changeComponent(state, action: PayloadAction<ComponentInfoType>) {
+      const { list } = state
+      const { fe_id } = action.payload
+      const curCom = list.find(item => item.fe_id === fe_id)
+      if (!curCom) return
+      Object.assign(curCom, action.payload)
+      state.list = [...list]
+    },
   },
 })
 
@@ -122,6 +138,8 @@ export const {
   copyComponent,
   pasteComponent,
   moveComponent,
+  changeComponentTitle,
+  changeComponent,
 } = componentSlice.actions
 
 export default componentSlice.reducer
