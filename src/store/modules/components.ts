@@ -4,9 +4,11 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { produce } from 'immer'
 import { cloneDeep } from 'lodash'
 import { nanoid } from 'nanoid'
+import { arrayMove } from '@dnd-kit/sortable'
 
 export type ComponentInfoType = {
   fe_id: string
+  id: string
   type: string
   title: string
   isHidden: boolean
@@ -84,6 +86,7 @@ const componentSlice = createSlice({
       const { list, selectId, copyComponent } = state
       if (!copyComponent) return
       copyComponent.fe_id = nanoid()
+      copyComponent.id = nanoid()
       if (selectId) {
         const index = list.findIndex(item => item.fe_id === selectId)
         if (index >= 0) {
@@ -124,6 +127,9 @@ const componentSlice = createSlice({
       Object.assign(curCom, action.payload)
       state.list = [...list]
     },
+    swapComponent(state, action: PayloadAction<{ oldIndex: number; newIndex: number }>) {
+      state.list = arrayMove(state.list, action.payload.oldIndex, action.payload.newIndex)
+    },
   },
 })
 
@@ -140,6 +146,7 @@ export const {
   moveComponent,
   changeComponentTitle,
   changeComponent,
+  swapComponent,
 } = componentSlice.actions
 
 export default componentSlice.reducer

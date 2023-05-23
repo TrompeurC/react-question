@@ -13,6 +13,7 @@ const ComponentLib = memo(() => {
     const { title, Component, defaultProps } = getComponentConfByType(type)!
     dispatch(
       insertComponent({
+        id: nanoid(),
         fe_id: nanoid(),
         title,
         isHidden: false,

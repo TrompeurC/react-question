@@ -1,3 +1,4 @@
+import { ActionCreators } from 'redux-undo'
 import { useKeyPress } from 'ahooks'
 import { EventHandler } from 'react'
 import { useAppDispatch } from '../store'
@@ -26,11 +27,24 @@ export default function useBindCanvasKeyPress() {
   useKeyPress('downarrow', () => {
     dispatch(moveComponent(1))
   })
+  useKeyPress(
+    ['ctrl.z', 'meta.z'],
+    () => {
+      dispatch(ActionCreators.undo())
+    },
+    {
+      exactMatch: true,
+    }
+  )
+  useKeyPress(['ctrl.shift.z', 'meta.shift.z'], () => {
+    dispatch(ActionCreators.redo())
+  })
 }
 
 function isActiveElement() {
-  const avticeEle = document.activeElement
+  const acticeEle = document.activeElement
 
-  if (avticeEle === document.body) return true
+  if (acticeEle === document.body) return true
+  if (acticeEle?.matches('div[role=button]')) return true
   return false
 }

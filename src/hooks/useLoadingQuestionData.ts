@@ -25,8 +25,9 @@ export default function useLoadingQuestionData() {
     onSuccess(res) {
       const { title, componentList, css, js, desc } = res
       dispatch(resetComponentList(componentList))
-      if (componentList.length > 0) {
-        dispatch(changeSelectId(componentList[0].fe_id))
+      const list = componentList.filter((item: any) => !item.isHidden)
+      if (list.length > 0) {
+        dispatch(changeSelectId(list[0].fe_id))
       }
       dispatch(resetPageInfo({ title, css, js, desc }))
     },

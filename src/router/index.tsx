@@ -12,6 +12,7 @@ import NotFound from '../pages/not-found'
 import ManageLayout from '../layout/manage-layout'
 import Edit from '../pages/question/edit'
 import Stat from '../pages/question/stat'
+import TextPage from '../pages/test'
 
 export default createBrowserRouter([
   {
@@ -63,6 +64,10 @@ export default createBrowserRouter([
         element: <Stat />,
       },
     ],
+  },
+  {
+    path: '/test',
+    element: <TextPage />,
   },
   {
     path: '*',

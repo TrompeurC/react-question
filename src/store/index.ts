@@ -3,11 +3,19 @@ import userReducer from './modules/user'
 import componentListReducer from './modules/components'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import pageinfoReducer from './modules/pageinfo'
+import undoable, { excludeAction } from 'redux-undo'
 
 const store = configureStore({
   reducer: {
     user: userReducer,
-    componentList: componentListReducer,
+    componentList: undoable(componentListReducer, {
+      limit: 20,
+      filter: excludeAction([
+        'componentList/resetComponentList',
+        'componentList/changeSelectId',
+        'componentList/moveComponent',
+      ]),
+    }),
     pageInfo: pageinfoReducer,
   },
 })
